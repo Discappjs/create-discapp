@@ -24,7 +24,6 @@
     "trailingComma": "es5"
   },
   "np": {
-		"contents": "dist",
     "message": "Releases %s"
 	}
 }
