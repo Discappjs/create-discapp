@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import {
   Task,
   Interview,
@@ -15,6 +17,17 @@ const tasks: { new (): Task }[] = [
   PostInstall,
   Congrats,
 ]
+
+var currentNodeVersion = process.versions.node
+var semver = currentNodeVersion.split('.')
+var major = Number(semver[0])
+
+if (major < 14) {
+  Terminal.logError(`Discapp required Node 14 or higher.`)
+  console.log(
+    `Your Node version is ${currentNodeVersion}, please updpate your Node version.`
+  )
+}
 
 export async function executeTaks() {
   let i = 1
@@ -37,3 +50,5 @@ export async function executeTaks() {
 
   process.exit(0)
 }
+
+executeTaks()

@@ -1,12 +1,11 @@
 {
   "name": "create-discapp",
   "version": "0.0.2",
-  "main": "dist/index.js",
   "repository": "https://github.com/Discappjs/create-discapp",
   "author": "Jota <jjunior@protonmail.ch>",
   "license": "MIT",
   "bin": {
-    "create-discapp": "dist/bin/run.js"
+    "create-discapp": "dist/index.js"
   },
   "devDependencies": {
     "@types/degit": "^2.8.1",
