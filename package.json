@@ -1,6 +1,10 @@
 {
   "name": "create-discapp",
   "version": "0.0.3",
+  "files": [
+    "dist",
+    "src"
+  ],
   "repository": "https://github.com/Discappjs/create-discapp",
   "author": "Jota <jjunior@protonmail.ch>",
   "license": "MIT",
