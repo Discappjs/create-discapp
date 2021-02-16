@@ -14,7 +14,7 @@ yarn create discapp
 
 ## About
 
-This project will clone the [Discapp demo](https://github.com/jotaajunior/discapp-demo) into your project folder, this is also execute some tasks:
+This project will clone the [Discapp demo](https://github.com/jotaajunior/discapp-demo) into your project folder, this will also execute some extra tasks:
 
 - Install the dependencies
 - Replace the name in `package.json` by your project name
