@@ -1,6 +1,6 @@
 {
   "name": "create-discapp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "repository": "https://github.com/Discappjs/create-discapp",
   "author": "Jota <jjunior@protonmail.ch>",
@@ -9,9 +9,9 @@
     "create-discapp": "dist/bin/run.js"
   },
   "devDependencies": {
+    "@types/degit": "^2.8.1",
     "@types/node": "^14.14.25",
-    "typescript": "^4.1.3",
-    "@types/degit": "^2.8.1"
+    "typescript": "^4.1.3"
   },
   "dependencies": {
     "chalk": "^4.1.0",
@@ -25,5 +25,5 @@
   },
   "np": {
     "message": "Releases %s"
-	}
+  }
 }
