@@ -1,1 +1,1 @@
-export const TEMPLATE_REPOSITORY = 'jotaajunior/discapp-demo#main'
+export const TEMPLATE_REPOSITORY = 'discappjs/basic-template#main'
