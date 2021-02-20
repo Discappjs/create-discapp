@@ -15,6 +15,6 @@ export class Congrats implements Task {
 
     console.log('Get started by running:\n')
     console.log(`    ${chalk.blue(`cd ${state.projectName}`)}`)
-    console.log(`    ${state.client} dev`)
+    console.log(`    ${state.client === 'npm' ? 'npm run' : 'yarn'} dev`)
   }
 }
