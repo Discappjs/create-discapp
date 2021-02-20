@@ -1,5 +1,6 @@
 import path from 'path'
 import execa from 'execa'
+import ora from 'ora'
 
 import { Terminal } from '../Terminal'
 import { Task } from './Task'
@@ -18,19 +19,25 @@ export class InstallDependencies implements Task {
   }
 
   public async execute() {
-    const shouldInstall = await Terminal.askQuestion(
-      'You want us to install your dependencies? [Y/n]',
-      'Whether we should install your dependencies. We will preferentially install with Yarn, if available.',
-      'y'
-    )
+    const shouldInstall = await Terminal.askQuestion({
+      title: 'You want us to install your dependencies? [Y/n]',
+      description:
+        'Whether we should install your dependencies. We will preferentially install with Yarn, if available.',
+      defaultAnswer: 'y',
+    })
 
     if (shouldInstall.toLowerCase().startsWith('y')) {
       state.client = this.shouldUseYarn() ? 'yarn' : 'npm'
 
       try {
+        const loading = ora('Installing dependencies').start()
+
         await execa(state.client, ['install'], {
           cwd: path.join(process.cwd(), state.projectName),
         })
+
+        loading.stop()
+
         Terminal.logSuccess(
           'The dependencies has has been successfully installed.'
         )

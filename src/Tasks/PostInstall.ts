@@ -1,6 +1,5 @@
 import fs from 'fs'
 import path from 'path'
-import execa from 'execa'
 
 import { state } from '../state'
 import { Task } from './Task'
@@ -31,7 +30,7 @@ export class PostInstall implements Task {
       )
       const fileContent = fs.readFileSync(packagePath, 'utf-8')
       const newFileContent = fileContent.replace(
-        '"name": "discapp-demo"',
+        '"name": "discapp-basic-template"',
         `"name": "${state.projectName}"`
       )
 

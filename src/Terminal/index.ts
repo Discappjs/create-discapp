@@ -1,6 +1,12 @@
 import chalk from 'chalk'
 import { createInterface } from 'readline'
 
+type Question = {
+  title: string
+  description: string
+  defaultAnswer?: any
+}
+
 export class Terminal {
   public static readonly rl = createInterface({
     input: process.stdin,
@@ -40,11 +46,11 @@ export class Terminal {
    *
    * @param title The title of the question
    */
-  public static async askQuestion(
-    title: string,
-    description: string = '',
-    defaultAnswer?: string
-  ): Promise<string> {
+  public static async askQuestion({
+    title,
+    description = '',
+    defaultAnswer,
+  }: Question): Promise<string> {
     return new Promise((resolve) => {
       this.rl.question(
         `${chalk.green.bold('[?]')} ${title} \n${chalk.gray(
