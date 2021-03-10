@@ -1,15 +1,51 @@
-#!/usr/bin/env node
+import { Command } from 'commander'
 
+import packageJson from '../package.json'
+import { state } from './state'
+import { logError, logStep } from './Terminal'
 import {
-  Task,
   Interview,
   CloneProject,
   InstallDependencies,
   PostInstall,
   Congrats,
+  Task,
 } from './Tasks'
-import { Terminal } from './Terminal'
 
+const program = new Command()
+
+program
+  .version(packageJson.version)
+  .arguments('[directory]')
+  .option('--use-npm', 'Forces usage of NPM instead of Yarn')
+  .option('-f, --force', 'Always use the default options when avaible')
+  .description('Creates a Discapp project')
+  .action((directory, options) => {
+    console.log(options)
+
+    if (options.useNpm) {
+      state.client = 'npm!'
+    }
+
+    if (options.force) {
+      state.force = true
+    }
+
+    state.projectName = directory
+  })
+  .parse(process.argv)
+
+/**
+ * If project name is not defined, then we should ask
+ * the project name
+ */
+if (state.projectName === undefined) {
+  state.shouldAskProjectName = true
+}
+
+/**
+ * Tasks to execute
+ */
 const tasks: { new (): Task }[] = [
   Interview,
   CloneProject,
@@ -18,17 +54,9 @@ const tasks: { new (): Task }[] = [
   Congrats,
 ]
 
-var currentNodeVersion = process.versions.node
-var semver = currentNodeVersion.split('.')
-var major = Number(semver[0])
-
-if (major < 14) {
-  Terminal.logError(`Discapp required Node 14 or higher.`)
-  console.log(
-    `Your Node version is ${currentNodeVersion}, please updpate your Node version.`
-  )
-}
-
+/**
+ * Executes the tasks and exits
+ */
 export async function executeTaks() {
   let i = 1
 
@@ -36,13 +64,11 @@ export async function executeTaks() {
     try {
       const task = new Task()
 
-      Terminal.logStep(i++, tasks.length, task.description)
+      logStep(i++, tasks.length, task.description)
       await task.execute()
       console.log('\n')
     } catch (error) {
-      Terminal.logError(
-        'An error has happened while trying to scaffold your project.'
-      )
+      logError('An error has happened while trying to scaffold your project.')
       console.error(error)
       process.exit(1)
     }
