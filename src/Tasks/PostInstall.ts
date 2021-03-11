@@ -3,7 +3,7 @@ import path from 'path'
 
 import { state } from '../state'
 import { Task } from './Task'
-import { Terminal } from '../Terminal'
+import { logError, logSuccess } from '../Terminal'
 
 export class PostInstall implements Task {
   public description = 'Finishing installation'
@@ -14,9 +14,9 @@ export class PostInstall implements Task {
         path.join(process.cwd(), state.projectName, '.env.example'),
         path.join(process.cwd(), state.projectName, '.env')
       )
-      Terminal.logSuccess("Cloned '.env.example' to '.env'.")
+      logSuccess("Cloned '.env.example' to '.env'.")
     } catch (error) {
-      Terminal.logError("Can't clone '.env.example' to '.env'.")
+      logError("Can't clone '.env.example' to '.env'.")
       console.error(error)
     }
   }
@@ -35,11 +35,9 @@ export class PostInstall implements Task {
       )
 
       fs.writeFileSync(packagePath, newFileContent)
-      Terminal.logSuccess(
-        "Replaced 'package.json' with the name of your project."
-      )
+      logSuccess("Replaced 'package.json' with the name of your project.")
     } catch (error) {
-      Terminal.logError(
+      logError(
         "Wasn't able to replace the name of the project in 'package.json'."
       )
       console.error(error)

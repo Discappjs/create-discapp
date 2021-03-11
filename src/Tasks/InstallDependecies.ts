@@ -1,8 +1,9 @@
 import path from 'path'
 import execa from 'execa'
 import ora from 'ora'
+import Inquirer from 'inquirer'
 
-import { Terminal } from '../Terminal'
+import { logSuccess, logError } from '../Terminal'
 import { Task } from './Task'
 import { state } from '../state'
 
@@ -19,14 +20,22 @@ export class InstallDependencies implements Task {
   }
 
   public async execute() {
-    const shouldInstall = await Terminal.askQuestion({
-      title: 'You want us to install your dependencies? [Y/n]',
-      description:
-        'Whether we should install your dependencies. We will preferentially install with Yarn, if available.',
-      defaultAnswer: 'y',
-    })
+    let shouldInstall = true
 
-    if (shouldInstall.toLowerCase().startsWith('y')) {
+    if (!state.force) {
+      const answers = await Inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'shouldInstall',
+          message: 'Install the project dependencies?',
+          default: true,
+        },
+      ])
+
+      shouldInstall = answers.shouldInstall
+    }
+
+    if (shouldInstall) {
       state.client = this.shouldUseYarn() ? 'yarn' : 'npm'
 
       try {
@@ -38,17 +47,15 @@ export class InstallDependencies implements Task {
 
         loading.stop()
 
-        Terminal.logSuccess(
-          'The dependencies has has been successfully installed.'
-        )
+        logSuccess('The dependencies has has been successfully installed.')
       } catch (error) {
-        Terminal.logError(
+        logError(
           'An error has happened while trying to install your dependencies.'
         )
         console.error(error.message)
       }
     } else {
-      Terminal.logSuccess('You choose not to install the dependencies.')
+      logSuccess('You choose not to install the dependencies.')
     }
   }
 }
