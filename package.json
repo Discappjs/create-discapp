@@ -9,7 +9,7 @@
   "author": "Jota <jjunior@protonmail.ch>",
   "license": "MIT",
   "bin": {
-    "create-discapp": "dist/index.js"
+    "create-discapp": "dist/src/index.js"
   },
   "scripts": {
     "build": "tsc"
